@@ -4,6 +4,7 @@ import 'package:image/image.dart';
 import 'package:isolate_flutter/isolate_flutter.dart';
 
 import 'package:isolate_image_compress/src/constants/enums.dart';
+import 'package:isolate_image_compress/src/constants/enums.dart' as enums;
 import 'package:isolate_image_compress/src/entity/isolate_image.dart';
 import 'package:isolate_image_compress/src/compress_format/index.dart';
 
@@ -21,7 +22,7 @@ class CompressParams {
   final ImageResolution? maxResolution;
 
   /// [format] - the image format you want to compress.
-  final ImageFormat? format;
+  final enums.ImageFormat? format;
 
   /// Parameters used for compression
   ///
@@ -72,15 +73,15 @@ Future<Uint8List> _compressImage(CompressParams params) async {
   }
 }
 
-Decoder? _getDecoder(ImageFormat format) {
+Decoder? _getDecoder(enums.ImageFormat format) {
   switch (format) {
-    case ImageFormat.jpeg:
+    case enums.ImageFormat.jpeg:
       return JpegDecoder();
-    case ImageFormat.png:
+    case enums.ImageFormat.png:
       return PngDecoder();
-    case ImageFormat.tga:
+    case enums.ImageFormat.tga:
       return TgaDecoder();
-    case ImageFormat.gif:
+    case enums.ImageFormat.gif:
       return GifDecoder();
     default:
       return null;
@@ -98,7 +99,7 @@ extension CompressOnIsolateImage on IsolateImage {
   Future<Uint8List?> compress(
       {int? maxSize,
       ImageResolution? maxResolution,
-      ImageFormat? format}) async {
+        enums.ImageFormat? format}) async {
     final CompressParams _params = CompressParams(
         image: this,
         maxSize: maxSize,
@@ -116,7 +117,7 @@ extension CompressOnUint8List on Uint8List {
   /// - [maxResolution] - the maximum resolution compressed. (optional).
   /// - [format] - the image format you want to compress. (optional).
   Future<Uint8List?> compress(
-      {int? maxSize, ImageResolution? resolution, ImageFormat? format}) async {
+      {int? maxSize, ImageResolution? resolution, enums.ImageFormat? format}) async {
     final CompressParams _params = CompressParams(
         imageData: this,
         maxSize: maxSize,
@@ -134,7 +135,7 @@ extension CompressOnListInt on List<int> {
   /// - [maxResolution] - the maximum resolution compressed. (optional).
   /// - [format] - the image format you want to compress. (optional).
   Future<Uint8List?> compress(
-      {int? maxSize, ImageResolution? resolution, ImageFormat? format}) async {
+      {int? maxSize, ImageResolution? resolution, enums.ImageFormat? format}) async {
     final CompressParams _params = CompressParams(
         imageData: Uint8List.fromList(this),
         maxSize: maxSize,
